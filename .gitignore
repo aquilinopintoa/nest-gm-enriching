@@ -1,0 +1,7 @@
+// packages
+node_modules
+// generated files
+dist
+coverage
+// ide
+.vscode
