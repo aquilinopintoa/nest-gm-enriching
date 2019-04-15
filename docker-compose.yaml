@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+    mongo:
+        user: ${DOCKER_USER}
+        container_name: enriching-mongo
+        image: bitnami/mongodb:4.0.2
+        volumes:
+            - enriching-mongo:/bitnami
+        environment:
+            MONGODB_USERNAME: ${MONGO_USER}
+            MONGODB_PASSWORD: ${MONGO_PASSWORD}
+            MONGODB_DATABASE: ${MONGO_DATABASE}
+
+    server:
+        user: ${DOCKER_USER}
+        build: .
+        container_name: nest-gm-enriching
+        working_dir: /home/node/app
+        command: sh -c '${DEPLOY_CMD}'
+        volumes:
+            - ./:/home/node/app
+        ports:
+            - '${PORT}:${PORT}'
+        depends_on:
+            - mongo
+
+volumes:
+    ? enriching-mongo
